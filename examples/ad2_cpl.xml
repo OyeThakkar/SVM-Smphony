@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompositionPlaylist xmlns="http://www.smpte-ra.org/schemas/2067-3/2016">
+  <Id>urn:uuid:b2c3d4e5-f6a7-8901-bcde-f12345678901</Id>
+  <ContentTitle>Ad 2 - Brand Awareness</ContentTitle>
+  <IssueDate>2026-01-16T10:00:00.000Z</IssueDate>
+  <Issuer>Marketing Corp</Issuer>
+  <Creator>DCP Creator v1.0</Creator>
+  <ContentKind>advertisement</ContentKind>
+  <EditRate>24</EditRate>
+  <ReelList>
+    <Reel>
+      <Id>urn:uuid:22222222-2222-2222-2222-222222222222</Id>
+      <MainPicture>
+        <Id>urn:uuid:pic22222-2222-2222-2222-222222222222</Id>
+        <EditRate>24</EditRate>
+        <IntrinsicDuration>480</IntrinsicDuration>
+        <EntryPoint>0</EntryPoint>
+        <Duration>480</Duration>
+        <ScreenAspectRatio>1.85</ScreenAspectRatio>
+      </MainPicture>
+      <MainSound>
+        <Id>urn:uuid:snd22222-2222-2222-2222-222222222222</Id>
+        <EditRate>24</EditRate>
+        <IntrinsicDuration>480</IntrinsicDuration>
+        <EntryPoint>0</EntryPoint>
+        <Duration>480</Duration>
+      </MainSound>
+    </Reel>
+  </ReelList>
+</CompositionPlaylist>
