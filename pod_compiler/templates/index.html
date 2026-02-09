@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVN-Symphony Ad Pod Compiler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .file-upload {
+            border: 2px dashed #667eea;
+            border-radius: 6px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .file-upload:hover {
+            background-color: #f5f5ff;
+        }
+        
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        
+        .file-list {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            padding: 8px;
+            background: white;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .result-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        
+        .result-box h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .result-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-item strong {
+            color: #667eea;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 SVN-Symphony</h1>
+            <p>Weekly Per-Theatre Ad Pod Compiler</p>
+        </div>
+        
+        <div class="content">
+            <div id="alerts"></div>
+            
+            <form id="compileForm">
+                <div class="form-group">
+                    <label for="theatre_id">Theatre ID *</label>
+                    <input type="text" id="theatre_id" name="theatre_id" required placeholder="e.g., T1042">
+                </div>
+                
+                <div class="form-group">
+                    <label for="rating">Rating *</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Select Rating</option>
+                        <option value="G">G</option>
+                        <option value="PG">PG</option>
+                        <option value="PG-13">PG-13</option>
+                        <option value="R">R</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="section">Section *</label>
+                    <select id="section" name="section" required>
+                        <option value="">Select Section</option>
+                        <option value="LPS">LPS</option>
+                        <option value="EPS">EPS</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="aspect">Aspect Ratio *</label>
+                    <select id="aspect" name="aspect" required>
+                        <option value="">Select Aspect</option>
+                        <option value="Flat">Flat (1.85)</option>
+                        <option value="Scope">Scope (2.39)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="start_date">Start Date *</label>
+                    <input type="text" id="start_date" name="start_date" required 
+                           placeholder="dd-mmm-yyyy (e.g., 06-Feb-2026)">
+                </div>
+                
+                <div class="form-group">
+                    <label>CPL Files (Upload in playback order, max 20) *</label>
+                    <div class="file-upload" onclick="document.getElementById('cpl_files').click()">
+                        <p>📁 Click to select CPL XML files</p>
+                        <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                            Order of selection = playback order
+                        </p>
+                        <input type="file" id="cpl_files" name="cpl_files" multiple accept=".xml">
+                    </div>
+                    <div id="fileList" class="file-list" style="display: none;"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    🚀 Compile Ad Pod
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Compiling ad pod...</p>
+            </div>
+            
+            <div id="results"></div>
+        </div>
+    </div>
+    
+    <script>
+        const fileInput = document.getElementById('cpl_files');
+        const fileList = document.getElementById('fileList');
+        const form = document.getElementById('compileForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loading = document.getElementById('loading');
+        const alerts = document.getElementById('alerts');
+        const results = document.getElementById('results');
+        
+        fileInput.addEventListener('change', function() {
+            const files = Array.from(this.files);
+            if (files.length > 0) {
+                fileList.style.display = 'block';
+                fileList.innerHTML = files.map((file, index) => 
+                    `<div class="file-item">
+                        <span>${index + 1}. ${file.name}</span>
+                        <span style="color: #667eea; font-size: 11px;">${(file.size / 1024).toFixed(1)} KB</span>
+                    </div>`
+                ).join('');
+            } else {
+                fileList.style.display = 'none';
+            }
+        });
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            alerts.innerHTML = '';
+            results.innerHTML = '';
+            
+            const formData = new FormData(form);
+            const files = fileInput.files;
+            
+            if (files.length === 0) {
+                showAlert('Please select CPL files', 'error');
+                return;
+            }
+            
+            if (files.length > 20) {
+                showAlert(`Too many files (${files.length}). Maximum is 20.`, 'error');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/compile', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('✅ Pod compiled successfully!', 'success');
+                    showResults(data);
+                } else {
+                    showAlert(`❌ Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`❌ Request failed: ${error.message}`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+        
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alerts.appendChild(alertDiv);
+        }
+        
+        function showResults(data) {
+            const resultsHTML = `
+                <div class="result-box">
+                    <h3>📦 Compilation Results</h3>
+                    <div class="result-item"><strong>Pod Name:</strong> ${data.pod_name}</div>
+                    <div class="result-item"><strong>Pod ID:</strong> ${data.pod_id}</div>
+                    <div class="result-item"><strong>Output Directory:</strong> ${data.output_dir}</div>
+                    <div class="result-item"><strong>CPL Count:</strong> ${data.cpl_count}</div>
+                    <div class="result-item"><strong>Asset Count:</strong> ${data.asset_count}</div>
+                    ${data.warnings && data.warnings.length > 0 ? 
+                        `<div class="result-item">
+                            <strong>Warnings:</strong><br>
+                            ${data.warnings.map(w => `⚠️ ${w}`).join('<br>')}
+                        </div>` : ''}
+                </div>
+            `;
+            results.innerHTML = resultsHTML;
+        }
+    </script>
+</body>
+</html>

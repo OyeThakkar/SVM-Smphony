@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompositionPlaylist xmlns="http://www.smpte-ra.org/schemas/2067-3/2016">
+  <Id>urn:uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
+  <ContentTitle>Ad 1 - Product Launch</ContentTitle>
+  <IssueDate>2026-01-15T10:00:00.000Z</IssueDate>
+  <Issuer>Ad Agency XYZ</Issuer>
+  <Creator>DCP Creator v1.0</Creator>
+  <ContentKind>advertisement</ContentKind>
+  <EditRate>24</EditRate>
+  <ReelList>
+    <Reel>
+      <Id>urn:uuid:11111111-1111-1111-1111-111111111111</Id>
+      <MainPicture>
+        <Id>urn:uuid:pic11111-1111-1111-1111-111111111111</Id>
+        <EditRate>24</EditRate>
+        <IntrinsicDuration>720</IntrinsicDuration>
+        <EntryPoint>0</EntryPoint>
+        <Duration>720</Duration>
+        <ScreenAspectRatio>1.85</ScreenAspectRatio>
+      </MainPicture>
+      <MainSound>
+        <Id>urn:uuid:snd11111-1111-1111-1111-111111111111</Id>
+        <EditRate>24</EditRate>
+        <IntrinsicDuration>720</IntrinsicDuration>
+        <EntryPoint>0</EntryPoint>
+        <Duration>720</Duration>
+      </MainSound>
+    </Reel>
+  </ReelList>
+</CompositionPlaylist>
